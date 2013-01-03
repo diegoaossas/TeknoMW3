@@ -26,6 +26,7 @@
     </SccAuxPath>
     <SccProvider>
     </SccProvider>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -38,7 +39,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -151,11 +151,9 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <EmbeddedResource Include="tekntup.bik" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="donate.gif" />
-    <Resource Include="TKARTFANBNATM.png" />
+    <Resource Include="Images\TKARTFANBNATM.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
@@ -178,9 +176,6 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\done_logo_mw3.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\teknogods3___.png" />

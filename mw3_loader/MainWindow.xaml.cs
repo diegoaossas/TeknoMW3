@@ -22,6 +22,7 @@ namespace TeknoMW3
     using System.Threading;
     using System.Windows;
     using System.Windows.Controls;
+
     using System.Windows.Input;
 
     using Microsoft.Win32;
@@ -128,44 +129,6 @@ namespace TeknoMW3
             {
                 MessageBox.Show("Invalid hostname!");
                 return string.Empty;
-            }
-        }
-
-        /// <summary>
-        /// The read.
-        /// </summary>
-        /// <param name="KeyName">
-        /// The key name.
-        /// </param>
-        /// <returns>
-        /// The read.
-        /// </returns>
-        public string Read(string KeyName)
-        {
-            // Opening the registry key
-            RegistryKey rk = Registry.CurrentUser;
-
-            // Open a subKey as read-only
-            RegistryKey sk1 = rk.OpenSubKey("SOFTWARE\\Valve\\Steam\\");
-
-            // If the RegistrySubKey doesn't exist -> (null)
-            if (sk1 == null)
-            {
-                return null;
-            }
-            else
-            {
-                try
-                {
-                    // If the RegistryKey exists I get its value
-                    // or null is returned.
-                    return (string)sk1.GetValue(KeyName.ToUpper());
-                }
-                catch (Exception e)
-                {
-                    // AAAAAAAAAAARGH, an error!
-                    return null;
-                }
             }
         }
 
@@ -671,148 +634,6 @@ namespace TeknoMW3
             settings.ShowDialog();
         }
 
-        /// <summary>
-        /// The copy stream.
-        /// </summary>
-        /// <param name="input">
-        /// The input. 
-        /// </param>
-        /// <param name="output">
-        /// The output. 
-        /// </param>
-        private void CopyStream(Stream input, Stream output)
-        {
-            var buffer = new byte[32768];
-            while (true)
-            {
-                int read = input.Read(buffer, 0, buffer.Length);
-                if (read <= 0)
-                {
-                    return;
-                }
-
-                output.Write(buffer, 0, read);
-            }
-        }
-
-        /// <summary>
-        /// The check new version.
-        /// </summary>
-        private void FetchNews()
-        {
-            try
-            {
-                // used to build entire input
-                var sb = new List<string>();
-
-                // used on each read operation
-                var buf = new byte[8192];
-
-                // prepare the web page we will be asking for
-                var request = (HttpWebRequest)WebRequest.Create("http://teknogods.com:8080/updatecheck/?project=news");
-                var request2 = (HttpWebRequest)WebRequest.Create("http://teknogods.com/updatecheck/?project=news");
-
-                HttpWebResponse response1 = TryToGetData(request);
-
-                HttpWebResponse responsemain;
-
-                // execute the request
-                if (response1 == null)
-                {
-                    HttpWebResponse response2 = TryToGetData(request2);
-                    if (response2 == null)
-                    {
-                        // Cannot connect servers.
-                        this.NewsUrl.NavigateUri = new Uri("http://www.teknogods.com");
-                        this.NewsText.Text =
-                            ((AssemblyCompanyAttribute)
-                             Assembly.GetCallingAssembly().GetCustomAttributes(typeof(AssemblyCompanyAttribute), false)[
-                                 0]).Company + " "
-                            +
-                            ((AssemblyCopyrightAttribute)
-                             Assembly.GetCallingAssembly().GetCustomAttributes(
-                                 typeof(AssemblyCopyrightAttribute), false)[0]).Copyright;
-                        return;
-                    }
-                    else
-                    {
-                        responsemain = response2;
-                    }
-                }
-                else
-                {
-                    responsemain = response1;
-                }
-
-                // we will read data via the response stream
-                Stream resStream = responsemain.GetResponseStream();
-
-                string tempString = null;
-                int count = 0;
-
-                do
-                {
-                    // fill the buffer with data
-                    count = resStream.Read(buf, 0, buf.Length);
-
-                    // make sure we read some data
-                    if (count != 0)
-                    {
-                        // translate from bytes to ASCII text
-                        tempString = Encoding.ASCII.GetString(buf, 0, count);
-
-                        // continue building the string
-                        sb.Add(tempString);
-                    }
-                }
-                while (count > 0); // any more data to read?
-
-                string[] str = sb[0].Split(";".ToCharArray());
-                if (str.Length == 2)
-                {
-                    this.NewsUrl.NavigateUri = new Uri(str[1].Replace("\r", string.Empty).Replace("\n", string.Empty));
-                    this.NewsText.Text = str[0];
-                    return;
-                }
-
-                this.NewsUrl.NavigateUri = new Uri("http://www.teknogods.com");
-                this.NewsText.Text =
-                    ((AssemblyCompanyAttribute)
-                     Assembly.GetCallingAssembly().GetCustomAttributes(typeof(AssemblyCompanyAttribute), false)[0]).
-                        Company + " "
-                    +
-                    ((AssemblyCopyrightAttribute)
-                     Assembly.GetCallingAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false)[0]).
-                        Copyright;
-            }
-            catch (Exception)
-            {
-                this.NewsUrl.NavigateUri = new Uri("http://www.teknogods.com");
-                this.NewsText.Text =
-                    ((AssemblyCompanyAttribute)
-                     Assembly.GetCallingAssembly().GetCustomAttributes(typeof(AssemblyCompanyAttribute), false)[0]).
-                        Company + " "
-                    +
-                    ((AssemblyCopyrightAttribute)
-                     Assembly.GetCallingAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false)[0]).
-                        Copyright;
-            }
-        }
-
-        /// <summary>
-        /// The image_ mouse down.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender. 
-        /// </param>
-        /// <param name="e">
-        /// The e. 
-        /// </param>
-        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            // TODO: Add event handler implementation here.
-            Process.Start("http://teknogods.com/?page_id=19");
-        }
 
         /// <summary>
         /// The ip lost focus.
@@ -942,19 +763,6 @@ namespace TeknoMW3
             return true;
         }
 
-        /// <summary>
-        /// The news url_ click.
-        /// </summary>
-        /// <param name="sender">
-        /// The sender. 
-        /// </param>
-        /// <param name="e">
-        /// The e. 
-        /// </param>
-        private void NewsUrl_Click(object sender, RoutedEventArgs e)
-        {
-            Process.Start(this.NewsUrl.NavigateUri.ToString());
-        }
 
         /// <summary>
         /// The port lost focus.
@@ -997,28 +805,6 @@ namespace TeknoMW3
         /// </param>
         private void StartTheProcess(string ExecutableName, string arguements)
         {
-            if (File.Exists(@".\devraw\video\startup.bik") == false)
-            {
-                if (Directory.Exists(@".\devraw\video") == false)
-                {
-                    Directory.CreateDirectory(@".\devraw\video");
-                }
-
-                // Here we extract it
-                string strPath = @".\devraw\video\startup.bik";
-                if (File.Exists(strPath))
-                {
-                    File.Delete(strPath);
-                }
-
-                Assembly assembly = Assembly.GetExecutingAssembly();
-                Stream input = assembly.GetManifestResourceStream("TeknoMW3.tekntup.bik");
-                FileStream output = File.Open(strPath, FileMode.CreateNew);
-                this.CopyStream(input, output);
-                input.Dispose();
-                output.Dispose();
-            }
-
             // var parser = new IniParser("teknogods.ini");
             // string name = parser.GetSetting("Settings", "Name");
             // string steamid = parser.GetSetting("Settings", "ID");
@@ -1089,71 +875,15 @@ namespace TeknoMW3
         /// </param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            this.Window.Title = "TeknoGods Modern Warfare 3 Offline/LAN gameplay MOD "
+            this.Window.Title = "TeknoGods Modern Warfare 3 Offline/LAN "
                                 + Assembly.GetExecutingAssembly().GetName().Version;
 
 #if (!DEBUG)
 
-    // if (Directory.GetCurrentDirectory().Contains(@"\steamapps\common\") == false)
-    // {
-    // MessageBox.Show(
-    // "It seems that you are not running legit version of the game, please buy it!",
-    // "Error",
-    // MessageBoxButton.OK,
-    // MessageBoxImage.Error);
-    // this.Close();
-    // return;
-    // }
-
-            var dir = Read("SteamPath");
-
-            if(dir == null)
-            {
-                MessageBox.Show("Cannot find Steam installation directory!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                this.Close();
-                return;
-            }
-
-            if (dir.Substring(dir.Length - 1, 1) != "/" || dir.Substring(dir.Length - 1, 1) != "\\")
-            {
-                dir += "/";
-            }
-
-            if(Directory.Exists(dir) == false)
-            {
-                MessageBox.Show("Cannot find Steam installation directory!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                this.Close();
-                return;
-            }
-
-            if (File.Exists(dir + "ClientRegistry.blob") == false)
-            {
-                MessageBox.Show("Cannot open Steam registry!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                this.Close();
-                return;                
-            }
-
-            var file = File.ReadAllBytes(dir + "ClientRegistry.blob");
-
-            var found = IndexOf(file, Encoding.ASCII.GetBytes("115300"));
-
-            var found2 = IndexOf(file, Encoding.ASCII.GetBytes("42690"));
-
-            if(found == -1 && found2 == -1)
+            if (File.Exists("TeknoMW3.dll") == false)
             {
                 MessageBox.Show(
-                    "It appears you've never used a legitimate Call of Duty - Modern Warfare 3 copy on this computer. Please launch Steam and the game at least once.", 
-                    "Error", 
-                    MessageBoxButton.OK, 
-                    MessageBoxImage.Error);
-                this.Close();
-                return;
-            }
-
-            if (File.Exists("teknomw3.dll") == false)
-            {
-                MessageBox.Show(
-                    "Cannot find teknomw3.dll", 
+                    "Cannot find TeknoMW3.dll", 
                     "Error", 
                     MessageBoxButton.OK, 
                 MessageBoxImage.Error);
@@ -1161,10 +891,10 @@ namespace TeknoMW3
                 return;
             }
 
-            if (this.GetMD5HashFromFile("teknomw3.dll") != "fa61fa41dca866f57c4eb7d189a937c6")
+            if (this.GetMD5HashFromFile("TeknoMW3.dll") != "72703455c07768ace8e7386344d5168f")
             {
                 MessageBox.Show(
-                "Please extract the TeknoGods teknomw3.dll in the game folder", 
+                "Please extract the TeknoGods TeknoMW3.dll in the game folder", 
                 "Error", 
                 MessageBoxButton.OK, 
                 MessageBoxImage.Error);
@@ -1172,31 +902,9 @@ namespace TeknoMW3
                 return;
             }
 
-
 #endif
-            if (File.Exists(@".\devraw\video\startup.bik") == false)
-            {
-                if (Directory.Exists(@".\devraw\video") == false)
-                {
-                    Directory.CreateDirectory(@".\devraw\video");
-                }
 
-                // Here we extract it
-                string strPath = @".\devraw\video\startup.bik";
-                if (File.Exists(strPath))
-                {
-                    File.Delete(strPath);
-                }
-
-                Assembly assembly = Assembly.GetExecutingAssembly();
-                Stream input = assembly.GetManifestResourceStream("TeknoMW3.tekntup.bik");
-                FileStream output = File.Open(strPath, FileMode.CreateNew);
-                this.CopyStream(input, output);
-                input.Dispose();
-                output.Dispose();
-            }
-
-            if (File.Exists("teknogods.ini") == false)
+            if (File.Exists("TeknoGods.ini") == false)
             {
                 MessageBox.Show(
                     "It seems that this is your first time running our loader, you must first set your nickname.", 
@@ -1210,14 +918,14 @@ namespace TeknoMW3
             {
                 try
                 {
-                    if (File.Exists("teknogods.ini"))
+                    if (File.Exists("TeknoGods.ini"))
                     {
-                        var parser = new IniParser("teknogods.ini");
+                        var parser = new IniParser("TeknoGods.ini");
                         string name = parser.GetSetting("Settings", "Name");
                         string id = parser.GetSetting("Settings", "ID");
                         if (id == "/")
                         {
-                            File.Delete("teknogods.ini");
+                            File.Delete("TeknoGods.ini");
                             MessageBox.Show(
                                 "It seems that you have malformed SteamID because of bug in 1.2 version, you are required to refill info.", 
                                 "Information", 
@@ -1229,7 +937,7 @@ namespace TeknoMW3
 
                         if (string.IsNullOrEmpty(name))
                         {
-                            File.Delete("teknogods.ini");
+                            File.Delete("TeknoGods.ini");
                             MessageBox.Show(
                                 "It seems that this is your first time running our loader, you must first set your nickname.", 
                                 "Information", 
@@ -1242,7 +950,7 @@ namespace TeknoMW3
                 }
                 catch (Exception)
                 {
-                    File.Delete("teknogods.ini");
+                    File.Delete("TeknoGods.ini");
                     MessageBox.Show(
                         "It seems that this is your first time running our loader, you must first set your nickname.", 
                         "Information", 
@@ -1265,10 +973,6 @@ namespace TeknoMW3
                 this.IpBox.Text = "127.0.0.1";
             }
 
-            var thread = new Thread(CheckNewVersion);
-            thread.Start();
-
-            this.FetchNews();
         }
 
         /// <summary>

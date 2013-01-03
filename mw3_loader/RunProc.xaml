@@ -15,7 +15,7 @@
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
-			<Image VerticalAlignment="Top" Source="TKARTFANBNATM.png" Grid.Row="0"/>
+			<Image VerticalAlignment="Top" Grid.Row="0" Source="/TeknoMW3;component/Images/TKARTFANBNATM.png" />
 			<Label Name="RunningLabel" Content="Game is running" Grid.Row="1" Style="{DynamicResource SimpleLabel}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 		</Grid>
 	</Grid>

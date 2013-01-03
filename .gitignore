@@ -1,0 +1,10 @@
+*.db
+*.vcxproj.user
+mw3_loader/obj/*
+steam_api_emu/Debug/*
+*.opensdf
+*sdf
+*.csproj.user
+mw3_master_server/Debug/*
+steam_api_emu/Release/*
+mw3_master_server/Release/*

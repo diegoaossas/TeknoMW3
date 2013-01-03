@@ -4,8 +4,8 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
 	x:Class="TeknoMW3.MainWindow"
 	x:Name="Window"
-	Title="TeknoGods Modern Warfare 3 Offline/LAN gameplay MOD 2.5"
-	Width="500" Height="680" ResizeMode="NoResize" Icon="/TeknoMW3;component/elephant.ico" xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Closing="Window_Closing">
+	Title="TeknoGods Modern Warfare 3 Offline/LAN/Internet gameplay"
+	Width="500" Height="207" ResizeMode="NoResize" Icon="/TeknoMW3;component/elephant.ico" xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" Closing="Window_Closing" Visibility="Visible" IsEnabled="True">
 
 	<Window.Resources>
 		<ControlTemplate x:Key="GlassButton" TargetType="{x:Type Button}">
@@ -75,44 +75,34 @@
 	</Window.Resources>
 
 	<Grid x:Name="LayoutRoot">
-		<Grid Margin="0,0,0,0">
+		<Grid Name="Controls">
 			<Grid.RowDefinitions>
-				<RowDefinition Height="500" />
-				<RowDefinition Height="28" />
-				<RowDefinition Height="28" />
-				<RowDefinition Height="28" />
-                <RowDefinition Height="28" />
-                <RowDefinition Height="28" />                
-			</Grid.RowDefinitions>
+                <RowDefinition Height="46" />
+                <RowDefinition Height="38" />
+                <RowDefinition Height="38" />
+                <RowDefinition Height="38" />
+                <RowDefinition Height="51*" />
+            </Grid.RowDefinitions>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
                 
 			</Grid.ColumnDefinitions>
-			<Image Source="/TeknoMW3;component/Images/done_logo_mw3.png" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"/>
-			<Label Content="IP Address and Port(MP only)" Style="{DynamicResource SimpleLabel}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-			<TextBox Name="IpBox" Style="{DynamicResource SimpleTextBox}" Text="" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" VerticalAlignment="Center" LostFocus="IpLostFocus"/>
-            <TextBox Name="PortBox" Style="{DynamicResource SimpleTextBox}" Text="" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1" VerticalAlignment="Center" LostFocus="PortLostFocus"/>
-            
-            <Image Width="100" Source="/TeknoMW3;component/donate.gif" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" MouseDown="Image_MouseDown"/>
-            
-            <Button Content="Settings" Template="{DynamicResource GlassButton}"  Foreground="#FFFFFFFF" Width="130" Grid.Row="4" Grid.Column="1" Click="Button_Click"/>
-            <Button Content="IWNet Profile Dumper" Template="{DynamicResource GlassButton}"  Foreground="#FFFFFFFF" Width="130" Grid.Row="2" Grid.Column="0" Click="BtnPdClick" />
-            <Button Content="Singleplayer" Template="{DynamicResource GlassButton}"  Foreground="#FFFFFFFF" Grid.Row="2" Grid.Column="1" Width="130" Click="BtcSpClick" />
-            <Button Content="About" Template="{DynamicResource GlassButton}"  Foreground="#FFFFFFFF" Grid.Row="3" Grid.Column="0" Width="130" Click="BtnAboutClick" />
-            <Button Content="Multiplayer" Template="{DynamicResource GlassButton}"  Foreground="#FFFFFFFF" Grid.Row="3" Grid.Column="1" Width="130" Click="BtnMpClick" />
-            <Button Name="btnMPDC" Content="Start (Direct Connect)" Template="{DynamicResource GlassButton}"  Foreground="#FFFFFFFF" Grid.Row="4" Grid.Column="2" Width="130" Visibility="Hidden" Click="BtnMpdcClick" />
-            <Button Name="btnMPLAN" Content="Start (LAN/Online)" Template="{DynamicResource GlassButton}"  Foreground="#FFFFFFFF" Grid.Row="3" Grid.Column="2" Width="130" Visibility="Hidden" Click="BtnMpLanClick" />
-            <Button Name="btcMPDedi" Content="Start Dedicated Server" Template="{DynamicResource GlassButton}"  Foreground="#FFFFFFFF" Grid.Row="2" Grid.Column="2" Width="130" Visibility="Hidden" Click="BtnMpDediClick" />
-            <Button Name="btcSPC" Content="Start as client" Template="{DynamicResource GlassButton}"  Foreground="#FFFFFFFF" Grid.Row="3" Grid.Column="2" Width="130" Visibility="Hidden" Click="BtnSpcClick" />
-            <Button Name="btnSPH" Content="Start as host" Template="{DynamicResource GlassButton}"  Foreground="#FFFFFFFF" Grid.Row="2" Grid.Column="2" Width="130" Visibility="Hidden" Click="BtnSphClick" />
-            <TextBlock Grid.Row="5" Grid.ColumnSpan="3" TextAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-            <Hyperlink NavigateUri="http://teknogods.com" Name="NewsUrl" Click="NewsUrl_Click">
-                <TextBlock Name="NewsText"/>
-            </Hyperlink>
-            </TextBlock>
-            <CheckBox Content="Debug" Grid.Column="2" Height="16" HorizontalAlignment="Left" Margin="107,484,0,0" Name="checkBox1" VerticalAlignment="Top" Checked="checkBox1_Checked" Visibility="Hidden" />
+            <Label Content="IP Address/Port (MP only)" Style="{DynamicResource SimpleLabel}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="145" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+			<TextBox Name="IpBox" Style="{DynamicResource SimpleTextBox}" Text="" VerticalAlignment="Center" LostFocus="IpLostFocus" Grid.Column="1" HorizontalAlignment="Center" Width="145" />
+            <TextBox Name="PortBox" Style="{DynamicResource SimpleTextBox}" Text="" Grid.Column="2" VerticalAlignment="Center" LostFocus="PortLostFocus" HorizontalAlignment="Center" Width="145" />
+            <Button Content="Settings" Template="{DynamicResource GlassButton}"  Foreground="#FFFFFFFF" Width="130" Grid.Column="1" Click="Button_Click" Grid.Row="3" Height="30" />
+            <Button Content="IWNet Profile Dumper" Template="{DynamicResource GlassButton}"  Foreground="#FFFFFFFF" Width="130" Click="BtnPdClick" Grid.Row="1" Height="30" />
+            <Button Content="Singleplayer" Template="{DynamicResource GlassButton}"  Foreground="#FFFFFFFF" Grid.Column="1" Width="130" Click="BtcSpClick" Grid.Row="1" Height="30" />
+            <Button Content="About" Template="{DynamicResource GlassButton}"  Foreground="#FFFFFFFF" Width="130" Click="BtnAboutClick" Grid.Row="2" Height="30" />
+            <Button Content="Multiplayer" Template="{DynamicResource GlassButton}"  Foreground="#FFFFFFFF" Grid.Column="1" Width="130" Click="BtnMpClick" Grid.Row="2" Height="30" />
+            <Button Name="btnMPDC" Content="Start (Direct Connect)" Template="{DynamicResource GlassButton}"  Foreground="#FFFFFFFF" Grid.Row="3" Grid.Column="2" Width="130" Visibility="Hidden" Click="BtnMpdcClick" Height="30" />
+            <Button Name="btnMPLAN" Content="Start (LAN/Online)" Template="{DynamicResource GlassButton}"  Foreground="#FFFFFFFF" Grid.Row="1" Grid.Column="2" Width="130" Visibility="Hidden" Click="BtnMpLanClick" Grid.RowSpan="3" Height="30" />
+            <Button Name="btcMPDedi" Content="Start Dedicated Server" Template="{DynamicResource GlassButton}"  Foreground="#FFFFFFFF" Grid.Column="2" Width="130" Visibility="Hidden" Click="BtnMpDediClick" Height="30" Grid.Row="1" />
+            <Button Name="btcSPC" Content="Start as client" Template="{DynamicResource GlassButton}"  Foreground="#FFFFFFFF" Grid.Row="2" Grid.Column="2" Width="130" Visibility="Hidden" Click="BtnSpcClick" Height="30" />
+            <Button Name="btnSPH" Content="Start as host" Template="{DynamicResource GlassButton}"  Foreground="#FFFFFFFF" Grid.Row="1" Grid.Column="2" Width="130" Visibility="Hidden" Click="BtnSphClick" Height="30" />
+            <CheckBox Content="Debug" Height="16" HorizontalAlignment="Center" Name="checkBox1" VerticalAlignment="Center" Checked="checkBox1_Checked" Grid.Row="3" Visibility="Hidden" />
         </Grid>		
 	</Grid>
 </Window>

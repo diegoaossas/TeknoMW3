@@ -8,3 +8,5 @@ steam_api_emu/Debug/*
 mw3_master_server/Debug/*
 steam_api_emu/Release/*
 mw3_master_server/Release/*
+Release/
+*.suo
